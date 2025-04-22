@@ -1,10 +1,323 @@
 body {
     font-family: Arial, sans-serif;
     text-align: center;
-    margin-top: 50px;
+    margin: 20px;
 }
-button {
-    padding: 10px 20px;
-    font-size: 16px;
+
+.contenedor-principal {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-wrap: nowrap; /* Evita que los elementos se envuelvan */
+    align-items: flex-start;
+    position: relative; /* Para posicionamiento relativo */
+}
+
+#tablero {
+    display: grid;
+    grid-template-columns: repeat(10, 50px);
+    grid-template-rows: repeat(10, 50px);
+    gap: 2px;
+    margin: 20px auto;
+    flex-shrink: 0; /* Evita que el tablero se encoja */
+}
+
+.celda {
+    width: 50px;
+    height: 50px;
+    border: 1px solid #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    font-weight: bold;
+    position: relative;
+    transition: all 0.2s ease; /* Transición suave para todos los cambios */
+}
+
+.celda-con-letra {
+    background-color: #e6f7ff;
     cursor: pointer;
+}
+
+.celda-con-letra:hover {
+    background-color: #bae7ff;
+}
+
+.celda-resaltada {
+    background-color: #52c41a !important; /* Verde */
+    color: white;
+    box-shadow: 0 0 5px rgba(82, 196, 26, 0.7);
+    transform: scale(1.05);
+}
+
+.celda-seleccionable {
+    background-color: #ffe58f !important; /* Amarillo claro */
+    border: 2px solid #fa8c16; /* Borde naranja sólido */
+    cursor: pointer;
+    /* Eliminamos la animación de parpadeo */
+}
+
+.celda-palabra-colocada {
+    background-color: #bae7ff !important; /* Azul claro */
+    color: #1890ff;
+    font-weight: bold;
+    border: 1px solid #1890ff;
+}
+
+.celda-error {
+    background-color: #ff4d4f !important; /* Rojo */
+    animation: shake 0.5s; /* Mantenemos solo la animación de shake */
+}
+
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-5px);
+    }
+    75% {
+        transform: translateX(5px);
+    }
+}
+
+.indice {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    font-size: 10px;
+    color: #666;
+    font-weight: normal;
+}
+
+#palabras-buscar {
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    padding: 15px;
+    min-width: 500px;
+    max-width: 100%;
+    text-align: left;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    height: auto;
+    position: sticky;
+    top: 20px; /* Mantiene el panel pegado al tope */
+    flex: 1; /* Toma el resto del espacio disponible */
+    overflow-y: auto; /* Permite scroll si el contenido es grande */
+    max-height: calc(100vh - 100px); /* Altura máxima ajustada a la ventana */
+}
+
+#panel-global-palabras {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 10px;
+    margin-bottom: 10px;
+    align-items: flex-start;
+}
+
+.grupo-indice {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 6px 10px;
+    background: #f8f8ff;
+    min-width: 140px;
+    max-width: 200px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.indice-titulo {
+    font-weight: bold;
+    margin-bottom: 4px;
+    font-size: 1em;
+    color: #333;
+}
+
+.palabra-global {
+    padding: 2px 6px;
+    display: inline-block;
+    margin: 1px 0;
+    border-radius: 4px;
+    font-size: 0.97em;
+    transition: background 0.2s;
+}
+
+.palabra-global.tachada {
+    text-decoration: line-through;
+    color: #aaa;
+    background: #e6e6e6;
+}
+
+#lista-palabras {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.titulo-indice {
+    font-weight: bold;
+    color: #333;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.palabra {
+    margin: 3px 0;
+    font-size: 13px;
+    white-space: nowrap;
+    cursor: pointer;
+    padding: 3px 5px;
+    border-radius: 3px;
+    transition: all 0.2s ease; /* Transición suave */
+}
+
+.palabra:hover {
+    background-color: #f0f0f0;
+}
+
+.palabra-colocada {
+    text-decoration: line-through;
+    color: #389e0d;
+    background-color: #f6ffed;
+}
+
+.grupo-indice-resaltado {
+    background-color: #e6f7ff;
+    border-left: 3px solid #1890ff;
+}
+
+/* Estilos para palabras seleccionadas */
+.palabra-seleccionada {
+    background-color: #e6f7ff !important;
+    border: 1px solid #1890ff;
+}
+
+h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.4em;
+    color: #444;
+    text-align: center;
+}
+
+/* Estilos para los controles y botones */
+.controles {
+    margin: 20px auto;
+    text-align: center;
+    clear: both; /* Asegura que esté debajo del contenido */
+}
+
+.botones-juego {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px solid #ddd;
+}
+
+button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-right: 5px;
+}
+
+#btnReinicio {
+    padding: 12px 25px;
+    background-color: #1890ff;
+    color: white;
+    font-size: 16px;
+    display: inline-block;
+}
+
+#btnReinicio:hover {
+    background-color: #096dd9;
+}
+
+.borrar-boton {
+    background-color: #ff4d4f !important;
+    color: white !important;
+}
+
+.cancelar-boton {
+    background-color: #d9d9d9;
+    color: rgba(0, 0, 0, 0.65);
+}
+
+/* Mensajes de error/éxito */
+.mensaje-error, .mensaje-exito, .mensaje-victoria {
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 4px;
+}
+
+.mensaje-error {
+    color: #f5222d;
+    background-color: #fff1f0;
+    border: 1px solid #ffa39e;
+}
+
+.mensaje-exito {
+    color: #52c41a;
+    background-color: #f6ffed;
+    border: 1px solid #b7eb8f;
+}
+
+/* Media queries para responsividad */
+@media (max-width: 1100px) {
+    .contenedor-principal {
+        flex-direction: column;
+        gap: 16px;
+        align-items: stretch;
+    }
+    #tablero {
+        margin: 0 auto 16px auto;
+        grid-template-columns: repeat(10, minmax(28px, 1fr));
+        grid-template-rows: repeat(10, minmax(28px, 1fr));
+    }
+    #palabras-buscar {
+        width: 100%;
+        max-width: 100vw;
+    }
+}
+@media (max-width: 700px) {
+    #panel-global-palabras {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 6px;
+    }
+    .grupo-indice {
+        min-width: 90px;
+        max-width: 100%;
+        padding: 4px 3px;
+        font-size: 0.92em;
+    }
+    .indice-titulo { font-size: 0.95em; }
+    .palabra-global { font-size: 0.9em; }
+    #tablero {
+        grid-template-columns: repeat(10, minmax(18px, 1fr));
+        grid-template-rows: repeat(10, minmax(18px, 1fr));
+        width: 98vw;
+        max-width: 99vw;
+    }
+    .celda {
+        width: 100%;
+        height: 100%;
+        font-size: 13px;
+    }
+}
+@media (max-width: 500px) {
+    #tablero {
+        grid-template-columns: repeat(10, minmax(12px, 1fr));
+        grid-template-rows: repeat(10, minmax(12px, 1fr));
+    }
+    .celda { font-size: 10px; }
+    .palabra-global { font-size: 0.8em; }
 }

@@ -3,12 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi App Sencilla</title>
+    <title>Sopa de Letras y Crucigrama</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>¡Hola Mundo!</h1>
-    <button id="miBoton">Haz clic</button>
+    <h1>Tablero de Letras</h1>
+    
+    <div class="contenedor-principal">
+        <div id="tablero"></div>
+        
+        <div id="palabras-buscar">
+            <h2>Palabras a buscar (por índice)</h2>
+            <div id="panel-global-palabras"></div>
+            <h2>Palabras a buscar</h2>
+            <div id="lista-palabras">
+                <!-- Las palabras se cargarán mediante JavaScript -->
+            </div>
+        </div>
+    </div>
+    
+    <div class="controles">
+        <button id="btnReinicio">Reiniciar Juego</button>
+    </div>
+    
     <script src="script.js"></script>
 </body>
 </html>
