@@ -278,17 +278,18 @@ function renderizarPanelGlobalPalabras() {
         titulo.className = 'indice-titulo';
         titulo.textContent = `Índice ${indice}`;
         grupo.appendChild(titulo);
-        palabrasPorIndice[indice].forEach(palabra => {
+        const palabras = palabrasPorIndice[indice];
+        palabras.forEach(palabra => {
             const estaEnTablero = palabraEstaEnTablero(palabra);
             const item = document.createElement('div');
             item.className = 'panel-palabra-item';
+            if (estaEnTablero) item.classList.add('tachada');
             if (palabraSeleccionadaPanel === palabra) item.classList.add('palabra-global-seleccionada');
             item.textContent = palabra;
             item.tabIndex = 0;
             if (!estaEnTablero) {
                 item.onclick = () => seleccionarPalabraPanel(palabra, indice);
             } else {
-                // Si la palabra está en el tablero, permite borrar o editar
                 item.onclick = () => mostrarOpcionesPalabraColocada(palabra, indice, item);
             }
             grupo.appendChild(item);
