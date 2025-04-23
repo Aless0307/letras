@@ -7,23 +7,24 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Tablero de Letras</h1>
-    
-    <div class="contenedor-principal">
-        <div id="tablero"></div>
-        
-        <div id="palabras-buscar">
-            <h2>Palabras a buscar (por índice)</h2>
-            <div id="panel-global-palabras"></div>
-            <h2>Palabras a buscar</h2>
-            <div id="lista-palabras">
-                <!-- Las palabras se cargarán mediante JavaScript -->
+    <div class="fondo-blur"></div>
+    <div id="main-container">
+        <!-- Cronómetro visible -->
+        <div id="cronometro" class="cronometro">00:00</div>
+        <!-- Mensaje de victoria -->
+        <div id="mensaje-victoria" class="mensaje-victoria" style="display:none"></div>
+        <h1 class="titulo-juego">Cruzisopa</h1>
+        <div class="contenedor-principal">
+            <div id="tablero"></div>
+            
+            <div id="palabras-buscar">
+                <h2>Palabras a buscar (por índice)</h2>
+                <div id="panel-global-palabras"></div>
             </div>
         </div>
-    </div>
-    
-    <div class="controles">
-        <button id="btnReinicio">Reiniciar Juego</button>
+        <div class="controles">
+            <button id="btnReinicio" class="btn-reinicio">Reiniciar</button>
+        </div>
     </div>
     
     <script src="script.js"></script>
